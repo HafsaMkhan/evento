@@ -1,0 +1,73 @@
+﻿@model WebApplication4.Models.CompanyViewModel
+
+@{
+    ViewBag.Title = "RegisterCompany";
+    Layout = "~/Views/Shared/LoginRegister.cshtml";
+}
+
+<div class="signup__container">
+    <div class="container__child signup__thumbnail">
+        <div class="thumbnail__logo">
+        </div>
+        <div class="thumbnail__content text-center" style="margin-left: 20%;margin-right: 20%;">
+            <h1 class="heading--primary">Welcome to EVENTO.</h1>
+            <h2 class="heading--secondary">Do you to get your events planned by professionals?</h2>
+        </div>
+        <div class="signup__overlay"></div>
+    </div>
+    <div class="container__child signup__form">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <form action="#">
+                <div class="form-group">
+                    <label for="username">Company Name</label>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" }, placeholder = "Your name" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="ceo">CEO</label>
+                    @Html.EditorFor(model => model.Ceo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Ceo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" }, placeholder = "evento@gmail.com" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="contact">Address</label>
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact</label>
+                    @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label for="passwordRepeat">Confirm Password</label>
+                    @Html.EditorFor(model => model.C_Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="m-t-lg">
+                    <ul class="list-inline">
+                        <li>
+                            <input class="btn btn--form" type="submit" value="Register" />
+                        </li>
+                        <li>
+                            <a class="signup__link" href="/Company/LoginCompany">I am already a member</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        }
+    </div>
+</div>

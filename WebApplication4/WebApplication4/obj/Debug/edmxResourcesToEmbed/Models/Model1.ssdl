@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EventoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AdminDb">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CompanyDb">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Contact" Type="int" />
+    <Property Name="Ceo" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="50" />
+    <Property Name="Isapproved" Type="bit" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="C_Password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="FeedbackDb">
+    <Key>
+      <PropertyRef Name="Counter" />
+    </Key>
+    <Property Name="Counter" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="varchar" MaxLength="50" />
+    <Property Name="Details" Type="varchar" MaxLength="50" />
+    <Property Name="PackageId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PackageDb">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Price" Type="int" />
+    <Property Name="Details" Type="varchar" MaxLength="50" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
+    <Property Name="CompanyId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserDb">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Contact" Type="int" />
+    <Property Name="PackageId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="EventoModelStoreContainer">
+    <EntitySet Name="AdminDb" EntityType="Self.AdminDb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanyDb" EntityType="Self.CompanyDb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedbackDb" EntityType="Self.FeedbackDb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PackageDb" EntityType="Self.PackageDb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserDb" EntityType="Self.UserDb" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

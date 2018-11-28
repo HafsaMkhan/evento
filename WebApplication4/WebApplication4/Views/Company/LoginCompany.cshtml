@@ -1,0 +1,55 @@
+﻿@model WebApplication4.Models.CompanyViewModel
+
+@{
+    ViewBag.Title = "LoginCompany";
+    Layout = "~/Views/Shared/LoginRegister.cshtml";
+}
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-form validate-form">
+                    <span class="login100-form-title p-b-43">
+                        Company Login
+                    </span>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" }, placeholder = "evento@gmail.com" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="flex-sb-m w-full p-t-3 p-b-32">
+                            <div class="contact100-form-checkbox">
+                                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                                <label class="label-checkbox100" for="ckb1">
+                                    Remember me
+                                </label>
+                            </div>
+                            <div>
+                                <a href="#" class="txt1">
+                                    Forgot Password?
+                                </a>
+                            </div>
+                        </div>
+                            <div class="container-login100-form-btn">
+                                <button class="login100-form-btn" style="background-color: #252526">
+                                    Login
+                                </button>
+                            </div>
+                    </form>
+                        }
+                                    <div class="login100-more" style="background-image: url('/images/bg-01.jpg');">
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+<label>@ViewBag.SuccessMessage</label>
