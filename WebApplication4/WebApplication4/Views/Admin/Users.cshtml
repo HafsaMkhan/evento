@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApplication4.Models.UserDb>
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/Dashboard.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">USERS</h4>
+                        <!-- <p class="category">Here is a subtitle for this table</p> -->
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <th>Sr. No.</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Remove User</th>
+                            </thead>
+                            <tbody>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td><button class="btn btn-light">DELETE</button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
