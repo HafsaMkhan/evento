@@ -1,0 +1,78 @@
+﻿@model WebApplication4.Models.UserViewModel
+
+@{
+    ViewBag.Title = "RegisterUser";
+    Layout = "~/Views/Shared/LoginRegister.cshtml";
+}
+
+
+<div class="signup__container">
+    <div class="container__child signup__thumbnail">
+        <div class="thumbnail__logo">
+        </div>
+        <div class="thumbnail__content text-center" style="margin-left: 20%;margin-right: 20%;">
+            <h1 class="heading--primary">Welcome to EVENTO.</h1>
+            <h2 class="heading--secondary">Do you to get your events planned by professionals?</h2>
+        </div>
+        <div class="signup__overlay"></div>
+    </div>
+    <div class="container__child signup__form">
+        @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+        {
+            if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success">
+                    <p>@ViewBag.Message</p>
+                </div>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm())
+            {
+                if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-danger">
+                        <p>@ViewBag.Message</p>
+                    </div>
+                }
+                <form action="#">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        @Html.EditorFor(model => model.C_Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.C_Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="m-t-lg">
+                        <ul class="list-inline">
+                            <li>
+                                <input class="btn btn--form" type="submit" value="Register" />
+                            </li>
+                            <li>
+                                <a class="signup__link" href="/User/LoginUser">I am already a member</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            }
+        }
+    </div>
+</div>
