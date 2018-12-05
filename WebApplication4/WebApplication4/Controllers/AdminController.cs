@@ -1,40 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity.Infrastructure;
 using WebApplication4.Models;
+using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace WebApplication4.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
         [HttpGet]
         public ActionResult Login(int id=0)
         {
             AdminViewModel ad = new AdminViewModel();
             return View(ad);
         }
+
+        [Authorize]
         [HttpPost]
-        public ActionResult Login(AdminViewModel ad)
+        public ActionResult Logout()
         {
-            using (EventoEntities db = new EventoEntities())
-            {
-                if (db.AdminDbs.Any(x => x.username == ad.username && x.password == ad.password))
-                {
-                    ViewBag.SuccessMessage = "Login Successful!";
-                    return View("RegisteredCompanies", new List<WebApplication4.Models.CompanyDb>());
-                }
-                ViewBag.SucceessMessage = "Incorrect Email or Password!";
-                return View("Login", new AdminViewModel());
-            }
-        }
-        public ActionResult Index()
-        {
-            return View();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("LoginUser", "User");
         }
 
+        [HttpPost]
+        public ActionResult Login(AdminViewModel login, string ReturnUrl = "")
+        {
+            string message = "";
+            using (EventoEntities db = new EventoEntities())
+            {
+                var v = db.AdminDbs.Where(x => x.username == login.username && x.password == login.password).FirstOrDefault();
+                if (v != null)
+                {
+                    int timeout = login.RememberMe ? 525600 : 20; 
+                    var ticket = new FormsAuthenticationTicket(login.username, login.RememberMe, timeout);
+                    string encrypted = FormsAuthentication.Encrypt(ticket);
+                    var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+                    cookie.Expires = DateTime.Now.AddMinutes(timeout);
+                    cookie.HttpOnly = true;
+                    Response.Cookies.Add(cookie);
+
+                    if (Url.IsLocalUrl(ReturnUrl))
+                    {
+                        return Redirect(ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("RegisteredCompanies", "Admin");
+                    }
+                }
+                else
+                {
+                    message = "Incorrect Email or Password!";
+                }
+                ViewBag.Message = message;
+                return View();
+            }
+        }
+
+        [Authorize]
         public ActionResult RegisteredCompanies()
         {
             EventoEntities db = new EventoEntities();
@@ -42,6 +71,7 @@ namespace WebApplication4.Controllers
             return View(rc);
         }
 
+        [Authorize]
         public ActionResult Users()
         {
             EventoEntities db = new EventoEntities();
@@ -49,6 +79,7 @@ namespace WebApplication4.Controllers
             return View(ru);
         }
 
+        [Authorize]
         public ActionResult CompanyRequests()
         {
             EventoEntities db = new EventoEntities();
@@ -56,43 +87,81 @@ namespace WebApplication4.Controllers
             return View(rc);
         }
 
+        [Authorize]
         public ActionResult Feedback()
         {
             EventoEntities db = new EventoEntities();
             List<FeedbackDb> rc = db.FeedbackDbs.ToList();
             return View(rc);
         }
-        [HttpGet]
-        public ActionResult ResetPassword(int id=0)
+
+        [Authorize]
+        public ActionResult ResetPassword(string id)
         {
-            AdminViewModel ad = new AdminViewModel();
-            return View(ad);
+            return View();
         }
+        
         [HttpPost]
-        public ActionResult ResetPassword(AdminViewModel adm)
+        public ActionResult ResetPassword(AdminResetViewModel model)
+        {
+            string message = "";
+            bool status = false;
+            if (ModelState.IsValid)
+            {
+                using (EventoEntities db = new EventoEntities())
+                {
+                    var ad = db.AdminDbs.Where(a => a.username == "admin" && a.password == model.OldPassword).FirstOrDefault();
+                    if (ad != null)
+                    {
+                        ad.password = model.NewPassword;
+                        db.Configuration.ValidateOnSaveEnabled = false;
+                        db.SaveChanges();
+                        return RedirectToAction("RegisteredCompanies");
+                    }
+                    else
+                    {
+                        message = "Old Password is incorrect.";
+                        status = true;
+                    }
+                }
+            }
+            ViewBag.Status = status;
+            ViewBag.Message = message;
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteUser(string id1)
+        {
+            using(EventoEntities db= new EventoEntities())
+            {
+                if (id1 == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                UserDb user = db.UserDbs.Find(id1);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
+            }
+        }
+
+        [HttpPost,ActionName("DeleteUser")]
+        public ActionResult DeleteConfirmed(string id1)
         {
             using (EventoEntities db = new EventoEntities())
             {
-                if (adm.change_password == adm.confirm_password)
-                {
-                    if (db.AdminDbs.Any(x => x.password == adm.password))
-                    {
-                        AdminDb ad = new AdminDb();
-                        ad.password = adm.change_password;
-                        
-                        ViewBag.SuccessMessage = "Password changed successfully!";
-                        return View("ResetPassword", new AdminViewModel());
-                    }
-                    ViewBag.SucceessMessage = "Incorrect Password!";
-                    return View("ResetPassword", new AdminViewModel());
-                }
-                else
-                {
-                    ViewBag.Message = "Password doesnot match!";
-                }
-                
+                UserDb user = db.UserDbs.Where(a => a.Email == id1).FirstOrDefault();
+                db.UserDbs.Remove(user);
+                db.SaveChanges();
             }
-            return View();
+            return RedirectToAction("Users");
         }
+
+        
+
+
     }
 }

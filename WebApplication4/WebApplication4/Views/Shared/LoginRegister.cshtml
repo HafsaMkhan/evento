@@ -17,6 +17,9 @@
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
     @*<link href="~/css/grayscale.min.css" rel="stylesheet">*@
     <link rel="stylesheet" href="~/css/signup.css">
@@ -41,11 +44,20 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Home/Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="/User/LoginUser">Login</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link js-scroll-trigger" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/User/LoginUser">User Login</a>
+                            <a class="dropdown-item" href="/Company/LoginCompany">Company Login</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="/User/RegisterUser">Register</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle nav-link js-scroll-trigger" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Registration</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/User/RegisterUser">User</a>
+                            <a class="dropdown-item" href="/Company/RegisterCompany">Company</a>
+                        </div>
+                        @*<a class="nav-link js-scroll-trigger" href="/User/LoginUser">Login</a>*@
                     </li>
                 </ul>
             </div>

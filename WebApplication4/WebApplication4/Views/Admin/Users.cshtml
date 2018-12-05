@@ -34,7 +34,12 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Email)
                                         </td>
-                                        <td><button class="btn btn-light">DELETE</button></td>
+                                        <td>
+
+                                            @Html.ActionLink("Delete","DeleteUser", new { id1 = item.Email })
+                                            
+                                            @*<button class="btn btn-light">DELETE</button>*@
+                                        </td>
                                     </tr>
                                 }
                             </tbody>

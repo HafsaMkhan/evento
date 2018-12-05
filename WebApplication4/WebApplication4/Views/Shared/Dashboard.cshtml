@@ -95,9 +95,13 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <a href="#" style="color: white">
-                                    <p>Log out</p>
-                                </a>
+                                @if (Request.IsAuthenticated)
+                                {
+                                    using (Html.BeginForm("Logout", "Admin", FormMethod.Post, new { id = "logoutForm" }))
+                                    {
+                                        <a style="color: white" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                                    }
+                                }
                             </li>
                             <li class="separator hidden-lg hidden-md"></li>
                         </ul>

@@ -24,7 +24,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">EVENTO Management System</a>
+            <a class="navbar-brand" href="#">@HttpContext.Current.User.Identity.Name</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,7 +38,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/Company/LoginCompany">Log Out</a>
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("Logout", "Company", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                            }
+                        }
                     </li>
                 </ul>
             </div>
